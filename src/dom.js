@@ -1,5 +1,7 @@
 const computerTurn = require('./AI');
 
+let isPlayerTurn = true;
+
 function renderAttack(gameboardDiv, x, y) {
     const gameboardSquareDivs = Array.from(gameboardDiv.getElementsByClassName('gameboard-square'));
     gameboardSquareDivs[x*10+y].classList.add('hit');
@@ -21,9 +23,21 @@ function initGameboards(player, computer) {
             const gameboardSquareDiv = document.createElement('div');
             gameboardSquareDiv.classList.add('gameboard-square');
             gameboardSquareDiv.addEventListener('click', (event) => {
-                computer.gameboard.receiveAttack(i, j);
-                renderAttack(computerGameboardDiv, i, j);
-                renderAttack(playerGameboardDiv, ...computerTurn(player));
+                if (isPlayerTurn) {
+                    computer.gameboard.receiveAttack(i, j);
+                    renderAttack(computerGameboardDiv, i, j);
+                    if (computer.gameboard.areAllShipsSunk) {
+                        console.log('Player wins');
+                        isPlayerTurn = false;
+                        return;
+                    }
+                    renderAttack(playerGameboardDiv, ...computerTurn(player));
+                    if (player.gameboard.areAllShipsSunk) {
+                        console.log('Computer wins');
+                        return;
+                    }
+                    isPlayerTurn = true;
+                }
             }, { once: true });
             computerGameboardDiv.appendChild(gameboardSquareDiv);
         }
