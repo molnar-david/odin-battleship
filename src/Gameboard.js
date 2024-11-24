@@ -3,7 +3,7 @@ const Ship = require('./Ship');
 class Gameboard {
     #board = Array(10).fill().map(() => Array(10).fill());
     #ships = [];
-    #allShipsSunk = false;
+    #areAllShipsSunk = false;
 
     get board() {
         return this.#board;
@@ -13,8 +13,8 @@ class Gameboard {
         return this.#ships;
     }
 
-    get allShipsSunk() {
-        return this.#allShipsSunk;
+    get areAllShipsSunk() {
+        return this.#areAllShipsSunk;
     }
 
     isValidPlacement(x, y, shipLength) {
@@ -37,7 +37,7 @@ class Gameboard {
     receiveAttack(x, y) {
         if (typeof this.#board[x][y] === 'object') {
             this.#board[x][y].hit();
-            if (this.#ships.every((ship) => ship.isSunk)) this.#allShipsSunk = true;
+            if (this.#ships.every((ship) => ship.isSunk)) this.#areAllShipsSunk = true;
         } else this.#board[x][y] = 'x';
     }
 }

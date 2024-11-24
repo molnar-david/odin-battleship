@@ -41,12 +41,12 @@ describe('receive attack - single ship', () => {
         });
 
         test('ship did not sink', () => {
-            expect(gameboard.allShipsSunk).toBeFalsy();
+            expect(gameboard.areAllShipsSunk).toBeFalsy();
         });
 
         test('ship sunk', () => {
             gameboard.receiveAttack(4, 2);
-            expect(gameboard.allShipsSunk).toBeTruthy();
+            expect(gameboard.areAllShipsSunk).toBeTruthy();
         });
     });
 });
@@ -84,7 +84,7 @@ describe('receive attack - multiple ships', () => {
             gameboard.receiveAttack(3, 2);
             gameboard.receiveAttack(4, 2);
             gameboard.receiveAttack(2, 4);
-            expect(gameboard.allShipsSunk).toBeFalsy();
+            expect(gameboard.areAllShipsSunk).toBeFalsy();
         });
 
         test('all ships sunk', () => {
@@ -93,7 +93,7 @@ describe('receive attack - multiple ships', () => {
             gameboard.receiveAttack(4, 2);
             gameboard.receiveAttack(2, 4);
             gameboard.receiveAttack(3, 4);
-            expect(gameboard.allShipsSunk).toBeTruthy();
+            expect(gameboard.areAllShipsSunk).toBeTruthy();
         });
     });
 });
