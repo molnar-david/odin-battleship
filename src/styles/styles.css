@@ -11,10 +11,19 @@
     display: grid;
     grid-template-columns: repeat(10, 40px);
     grid-template-rows: repeat(10, 40px);
+    grid-auto-flow: column;
     border: 1px solid grey;
 }
 
 .gameboard-square {
     background-color: skyblue;
     border: 1px solid grey;
+}
+
+#player-gameboard > .ship {
+    background-color: black;
+}
+
+#computer-gameboard > .ship {
+    background-color: red;
 }
