@@ -1,0 +1,20 @@
+* {
+    box-sizing: border-box;
+}
+
+.flex {
+    display: flex;
+    gap: 80px;
+}
+
+.gameboard {
+    display: grid;
+    grid-template-columns: repeat(10, 40px);
+    grid-template-rows: repeat(10, 40px);
+    border: 1px solid grey;
+}
+
+.gameboard-square {
+    background-color: skyblue;
+    border: 1px solid grey;
+}
