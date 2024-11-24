@@ -15,7 +15,6 @@ function initGameboards(player, computer) {
             gameboardSquare.classList.add('gameboard-square');
             gameboardSquare.addEventListener('click', (event) => {
                 computer.gameboard.receiveAttack(i, j);
-                gameboardSquare.addEventListener
                 if (typeof computer.gameboard.board[i][j] === 'object') {
                     console.log(`hits: ${computer.gameboard.board[i][j].hits}`)
                 } else {
