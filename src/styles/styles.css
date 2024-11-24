@@ -20,14 +20,26 @@
     border: 1px solid grey;
 }
 
+.gameboard-square.hit {
+    background-color: lightslategrey;
+}
+
 #player-gameboard > .ship {
     background-color: black;
 }
 
-#computer-gameboard > .ship {
+#player-gameboard > .ship.hit {
     background-color: red;
 }
 
-#computer-gameboard > .gameboard-square:hover {
+#computer-gameboard > .ship {
+    background-color: black;
+}
+
+#computer-gameboard > .ship.hit {
+    background-color: red;
+}
+
+#computer-gameboard > .gameboard-square:hover:not(.hit) {
     background-color: lightcoral;
 }
