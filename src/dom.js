@@ -1,14 +1,30 @@
-function initGameboards() {
-    const gameboards = Array.from(document.getElementsByClassName('gameboard'));
-    gameboards.forEach((gameboard) => {
-        for (let i = 0; i < 10; i++) {
-            for (let j = 0; j < 10; j++) {
-                const gameboardSquare = document.createElement('div');
-                gameboardSquare.classList.add('gameboard-square');
-                gameboard.appendChild(gameboardSquare);
-            }
+function initGameboards(player, computer) {
+    const playerGameboard = document.getElementById('player-gameboard');
+    for (let i = 0; i < 10; i++) {
+        for (let j = 0; j < 10; j++) {
+            const gameboardSquare = document.createElement('div');
+            gameboardSquare.classList.add('gameboard-square');
+            playerGameboard.appendChild(gameboardSquare);
         }
-    })
+    }
+    
+    const computerGameboard = document.getElementById('computer-gameboard');
+    for (let i = 0; i < 10; i++) {
+        for (let j = 0; j < 10; j++) {
+            const gameboardSquare = document.createElement('div');
+            gameboardSquare.classList.add('gameboard-square');
+            gameboardSquare.addEventListener('click', (event) => {
+                computer.gameboard.receiveAttack(i, j);
+                gameboardSquare.addEventListener
+                if (typeof computer.gameboard.board[i][j] === 'object') {
+                    console.log(`hits: ${computer.gameboard.board[i][j].hits}`)
+                } else {
+                    console.log('miss');
+                }
+            }, { once: true });
+            computerGameboard.appendChild(gameboardSquare);
+        }
+    }
 }
 
 function renderGameboards(player, computer) {

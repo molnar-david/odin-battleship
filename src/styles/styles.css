@@ -27,3 +27,7 @@
 #computer-gameboard > .ship {
     background-color: red;
 }
+
+#computer-gameboard > .gameboard-square:hover {
+    background-color: lightcoral;
+}

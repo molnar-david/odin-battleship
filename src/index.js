@@ -5,10 +5,9 @@ const Player = require('./Player');
 // const Gameboard = require('./Gameboard');
 // const Ship = require('./Ship');
 
-initGameboards();
-
 const player = new Player('Player');
 const computer = new Player();
+initGameboards(player, computer);
 
 player.gameboard.placeShip(0, 0, 5);
 player.gameboard.placeShip(2, 2, 4);
