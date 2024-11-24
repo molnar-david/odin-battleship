@@ -1,9 +1,7 @@
 const Ship = require('./Ship');
 
-const BOARD_SIZE = 10;
-
 class Gameboard {
-    #board = Array(BOARD_SIZE).fill().map(() => Array(BOARD_SIZE).fill());
+    #board = Array(10).fill().map(() => Array(10).fill());
     #ships = [];
     #allShipsSunk = false;
 
