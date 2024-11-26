@@ -1,9 +1,15 @@
 const Ship = require('./Ship');
 
 class Gameboard {
-    #board = Array(10).fill().map(() => Array(10).fill());
-    #ships = [];
-    #areAllShipsSunk = false;
+    #board;
+    #ships;
+    #areAllShipsSunk;
+
+    constructor(board = Array(10).fill().map(() => Array(10).fill()), ships = [], areAllShipsSunk = false) {
+        this.#board = board;
+        this.#ships = ships;
+        this.#areAllShipsSunk = areAllShipsSunk;
+    }
 
     get board() {
         return this.#board;
@@ -39,6 +45,12 @@ class Gameboard {
             this.#board[x][y].hit();
             if (this.#ships.every((ship) => ship.isSunk)) this.#areAllShipsSunk = true;
         } else this.#board[x][y] = 'x';
+    }
+
+    clone() {
+        const newBoard = structuredClone(this.#board);
+        const newShips = this.#ships.slice();
+        return new Gameboard(newBoard, newShips, this.#areAllShipsSunk);
     }
 }
 

@@ -97,3 +97,12 @@ describe('receive attack - multiple ships', () => {
         });
     });
 });
+
+describe('cloning', () =>  {
+    test('modifying clone does not modify original gameboard', () => {
+        gameboard.placeShip(2, 2, 3);
+        const clone = gameboard.clone();
+        clone.placeShip(2, 4, 3);
+        expect(gameboard.board[2][4]).toBeUndefined();
+    });
+});
