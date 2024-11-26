@@ -86,13 +86,13 @@ function initSquares(player, computer) {
                     computer.gameboard.receiveAttack(i, j);
                     renderAttack(computerGameboardDiv, i, j);
                     if (computer.gameboard.areAllShipsSunk) {
-                        console.log('Player wins');
+                        console.log(`${player.name} wins`);
                         isPlayerTurn = false;
                         return;
                     }
                     renderAttack(playerGameboardDiv, ...computerTurn(player));
                     if (player.gameboard.areAllShipsSunk) {
-                        console.log('Computer wins');
+                        console.log(`${computer.name} wins`);
                         isPlayerTurn = false;
                         return;
                     }
