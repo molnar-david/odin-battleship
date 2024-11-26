@@ -43,3 +43,7 @@
 #computer-gameboard > .gameboard-square:hover:not(.hit) {
     background-color: lightcoral;
 }
+
+.hidden {
+    display: none;
+}
