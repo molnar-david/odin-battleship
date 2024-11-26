@@ -20,6 +20,11 @@ function placeShipRandomly(player, shipLength) {
     }
 }
 
+function gameOver(winner) {
+    console.log(`${winner.name} wins`);
+    isPlayerTurn = false;
+}
+
 function initSquares() {
     const playerGameboardDiv = document.getElementById('player-gameboard');
     const computerGameboardDiv = document.getElementById('computer-gameboard');
@@ -32,14 +37,12 @@ function initSquares() {
                     computer.gameboard.receiveAttack(i, j);
                     renderAttack(computerGameboardDiv, i, j);
                     if (computer.gameboard.areAllShipsSunk) {
-                        console.log(`${player.name} wins`);
-                        isPlayerTurn = false;
+                        gameOver(player);
                         return;
                     }
                     renderAttack(playerGameboardDiv, ...computerTurn(player));
                     if (player.gameboard.areAllShipsSunk) {
-                        console.log(`${computer.name} wins`);
-                        isPlayerTurn = false;
+                        gameOver(computer);
                         return;
                     }
                     isPlayerTurn = true;
