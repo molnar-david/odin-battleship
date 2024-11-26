@@ -1,6 +1,6 @@
 const computerTurn = require('./AI');
 
-let isPlayerTurn = true;
+let isPlayerTurn = false;
 
 function renderAttack(gameboardDiv, x, y) {
     const gameboardSquareDivs = Array.from(gameboardDiv.getElementsByClassName('gameboard-square'));
@@ -48,23 +48,6 @@ function initGameboards(player, computer) {
         for (let j = 0; j < 10; j++) {
             const gameboardSquareDiv = document.createElement('div');
             gameboardSquareDiv.classList.add('gameboard-square');
-            gameboardSquareDiv.addEventListener('click', (event) => {
-                if (isPlayerTurn) {
-                    computer.gameboard.receiveAttack(i, j);
-                    renderAttack(computerGameboardDiv, i, j);
-                    if (computer.gameboard.areAllShipsSunk) {
-                        console.log('Player wins');
-                        isPlayerTurn = false;
-                        return;
-                    }
-                    renderAttack(playerGameboardDiv, ...computerTurn(player));
-                    if (player.gameboard.areAllShipsSunk) {
-                        console.log('Computer wins');
-                        return;
-                    }
-                    isPlayerTurn = true;
-                }
-            }, { once: true });
             computerGameboardDiv.appendChild(gameboardSquareDiv);
         }
     }
@@ -91,16 +74,60 @@ function placeShipRandomly(player, shipLength) {
     }
 }
 
+function initSquares(player, computer) {
+    const playerGameboardDiv = document.getElementById('player-gameboard');
+    const computerGameboardDiv = document.getElementById('computer-gameboard');
+    const computerGameboardSquareDivs = Array.from(computerGameboardDiv.getElementsByClassName('gameboard-square'));
+    for (let i = 0; i < 10; i++) {
+        for (let j = 0; j < 10; j++) {
+            const computerGameboardSquareDiv = computerGameboardSquareDivs[i*10+j];
+            computerGameboardSquareDiv.addEventListener('click', (event) => {
+                if (isPlayerTurn) {
+                    computer.gameboard.receiveAttack(i, j);
+                    renderAttack(computerGameboardDiv, i, j);
+                    if (computer.gameboard.areAllShipsSunk) {
+                        console.log('Player wins');
+                        isPlayerTurn = false;
+                        return;
+                    }
+                    renderAttack(playerGameboardDiv, ...computerTurn(player));
+                    if (player.gameboard.areAllShipsSunk) {
+                        console.log('Computer wins');
+                        return;
+                    }
+                    isPlayerTurn = true;
+                }
+            }, { once: true });
+        }
+    }
+}
+
 function initBtns(player, computer) {
+    let clone;
     const autoPlaceBtn = document.getElementById('auto-place-btn');
     autoPlaceBtn.addEventListener('click', () => {
-        const clone = player.clone();
+        clone = player.clone();
         placeShipRandomly(clone, 5);
         placeShipRandomly(clone, 4);
         placeShipRandomly(clone, 3);
         placeShipRandomly(clone, 3);
         placeShipRandomly(clone, 2);
         renderGameboards(clone, computer);
+    });
+
+    const resetBtn = document.getElementById('reset-btn');
+    resetBtn.addEventListener('click', () => {
+        renderGameboards(player, computer);
+    });
+
+    const startBtn = document.getElementById('start-btn');
+    startBtn.addEventListener('click', () => {
+        player = clone;
+        isPlayerTurn = true;
+        initSquares(player, computer);
+        autoPlaceBtn.classList.add('hidden');
+        resetBtn.classList.add('hidden');
+        startBtn.classList.add('hidden');
     });
 }
 
