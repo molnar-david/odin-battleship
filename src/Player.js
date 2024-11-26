@@ -2,10 +2,11 @@ const Gameboard = require('./Gameboard');
 
 class Player {
     #name;
-    #gameboard = new Gameboard();
+    #gameboard;
 
-    constructor(name = 'Computer') {
+    constructor(name = 'Computer', gameboard = new Gameboard()) {
         this.#name = name;
+        this.#gameboard = gameboard;
     }
 
     get name() {
@@ -14,6 +15,10 @@ class Player {
 
     get gameboard() {
         return this.#gameboard;
+    }
+
+    clone() {
+        return new Player(this.#name, this.#gameboard.clone());
     }
 }
 
