@@ -31,6 +31,7 @@ function renderGameboards(player, computer) {
 
 function initGameboards() {
     const playerGameboardDiv = document.getElementById('player-gameboard');
+    playerGameboardDiv.textContent = '';
     for (let i = 0; i < 10; i++) {
         for (let j = 0; j < 10; j++) {
             const gameboardSquareDiv = document.createElement('div');
@@ -40,6 +41,7 @@ function initGameboards() {
     }
     
     const computerGameboardDiv = document.getElementById('computer-gameboard');
+    computerGameboardDiv.textContent = '';
     for (let i = 0; i < 10; i++) {
         for (let j = 0; j < 10; j++) {
             const gameboardSquareDiv = document.createElement('div');
@@ -53,4 +55,8 @@ function hideElements(...elements) {
     elements.forEach((element) => element.classList.add('hidden'));
 }
 
-module.exports = { initGameboards, renderGameboards, renderAttack, hideElements };
+function showElements(...elements) {
+    elements.forEach((element) => element.classList.remove('hidden'));
+}
+
+module.exports = { initGameboards, renderGameboards, renderAttack, hideElements, showElements };
