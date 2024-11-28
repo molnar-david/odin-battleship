@@ -30,13 +30,13 @@ describe('receive attack - single ship', () => {
     })
 
     test('miss', () => {
-        gameboard.receiveAttack(1, 2);
-        expect(gameboard.board[1][2]).toBe('x');
+        expect(gameboard.receiveAttack(1, 2)).toBeFalsy();
     });
 
     test('single hit', () => {
         gameboard.receiveAttack(2, 2);
         expect(gameboard.board[2][2].hits).toBe(1);
+        expect(gameboard.receiveAttack(2, 2)).toBeTruthy();
     });
 
     describe('multiple hits', () =>  {

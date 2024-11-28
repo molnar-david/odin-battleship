@@ -62,7 +62,8 @@ class Gameboard {
         if (typeof this.#board[x][y] === 'object') {
             this.#board[x][y].hit();
             if (this.#ships.every((ship) => ship.isSunk)) this.#areAllShipsSunk = true;
-        } else this.#board[x][y] = 'x';
+            return true;
+        } else return false;
     }
 
     clone() {
