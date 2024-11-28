@@ -11,7 +11,12 @@ test('place ship in valid coordinates', () => {
 });
 
 test('place ship in invalid coordinates', () => {
-    expect(gameboard.placeShip(7, 7, 3)).toEqual([]);
+    expect(gameboard.placeShip(8, 7, 3)).toEqual([]);
+});
+
+test('place multiple ships on top of each other', () => {
+    gameboard.placeShip(2, 2, 3)
+    expect(gameboard.placeShip(4, 2, 3)).toEqual([]);
 });
 
 describe('receive attack - single ship', () => {

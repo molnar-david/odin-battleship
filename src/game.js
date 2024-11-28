@@ -23,10 +23,7 @@ function gameOver(winner) {
 }
 
 function placeShipOnClick(x, y, shipLength) {
-    const temp = clone.clone();
-    const coords = temp.gameboard.placeShip(x, y, shipLength);
-    const isTaken = coords.some((coord) => typeof clone.gameboard.board[coord[0]][coord[1]] === 'object');
-    if (!isTaken) clone.gameboard.placeShip(x, y, shipLength);
+    const coords = clone.gameboard.placeShip(x, y, shipLength);
 }
 
 function initPlayerSquares() {
@@ -94,15 +91,10 @@ function initComputerSquares() {
 
 function placeShipRandomly(player, shipLength) {
     let isValidPlacement = false;
-    while (!isValidPlacement) {
-        const x = Math.floor(Math.random() * (10 - shipLength));
+    while (true) {
+        const x = Math.floor(Math.random() * (10 - shipLength + 1));
         const y = Math.floor(Math.random() * 10);
-        const clone = player.gameboard.clone();
-        const coords = clone.placeShip(x, y, shipLength);
-
-        const isOutOfBounds = !Boolean(coords.length);
-        const isTaken = coords.some((coord) => typeof player.gameboard.board[coord[0]][coord[1]] === 'object');
-        if (isValidPlacement = !isOutOfBounds && !isTaken) player.gameboard.placeShip(x, y, shipLength);
+        if (player.gameboard.placeShip(x, y, shipLength).length) break;
     }
 }
 

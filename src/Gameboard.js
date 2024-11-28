@@ -22,18 +22,19 @@ class Gameboard {
     get areAllShipsSunk() {
         return this.#areAllShipsSunk;
     }
-
-    isValidPlacement(x, y, shipLength) {
-        return (x + shipLength >= 10) ? false : true;
-    }
     
     placeShip(x, y, shipLength) {
         let coords = [];
-        if (this.isValidPlacement(x, y, shipLength)) {
+        if (x + shipLength <= 10) {
+            const clone = this.clone();
             const ship = new Ship(shipLength);
             for (let i = 0; i < shipLength; i++) {
-                this.#board[x+i][y] = ship;
+                if (typeof clone.board[x+i][y] === 'object') return [];
+                clone.board[x+i][y] = ship;
                 coords.push([x + i, y]);
+            }
+            for (let i = 0; i < shipLength; i++) {
+                this.#board[x+i][y] = ship;
             }
             this.#ships.push(ship);
         }
