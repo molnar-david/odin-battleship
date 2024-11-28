@@ -22,7 +22,49 @@ function gameOver(winner) {
     showElements(replayBtn);
 }
 
-function initSquares() {
+function placeShipOnClick(x, y, shipLength) {
+    const temp = clone.clone();
+    const coords = temp.gameboard.placeShip(x, y, shipLength);
+    const isTaken = coords.some((coord) => typeof clone.gameboard.board[coord[0]][coord[1]] === 'object');
+    if (!isTaken) clone.gameboard.placeShip(x, y, shipLength);
+}
+
+function initPlayerSquares() {
+    const playerGameboardDiv = document.getElementById('player-gameboard');
+    const playerGameboardSquareDivs = Array.from(playerGameboardDiv.getElementsByClassName('gameboard-square'));
+    for (let i = 0; i < 10; i++) {
+        for (let j = 0; j < 10; j++) {
+            const playerGameboardSquareDiv = playerGameboardSquareDivs[i*10+j];
+            playerGameboardSquareDiv.addEventListener('click', (event) => {
+                if (!clone) clone = player.clone();
+                let shipLength;
+                switch (clone.gameboard.ships.length) {
+                    case 0:
+                        shipLength = 5;
+                        break;
+                    case 1:
+                        shipLength = 4;
+                        break;
+                    case 2:
+                        shipLength = 3;
+                        break;
+                    case 3:
+                        shipLength = 3;
+                        break;
+                    case 4:
+                        shipLength = 2;
+                        break;
+                    default:
+                        return;
+                }
+                placeShipOnClick(i, j, shipLength);
+                renderGameboards(clone, computer);
+            });
+        }
+    }
+}
+
+function initComputerSquares() {
     const playerGameboardDiv = document.getElementById('player-gameboard');
     const computerGameboardDiv = document.getElementById('computer-gameboard');
     const computerGameboardSquareDivs = Array.from(computerGameboardDiv.getElementsByClassName('gameboard-square'));
@@ -92,7 +134,7 @@ function initBtns() {
             placeShipRandomly(computer, 3);
             placeShipRandomly(computer, 2);
             renderGameboards(player, computer);
-            initSquares();
+            initComputerSquares();
             hideElements(autoPlaceBtn, resetBtn, startBtn);
             isPlayerTurn = true;
         }
@@ -114,6 +156,7 @@ function initGame(replay = false) {
     initGameboards();
     renderGameboards(player, computer);
     if (!replay) initBtns();
+    initPlayerSquares();
 }
 
 module.exports = initGame;
