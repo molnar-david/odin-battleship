@@ -111,3 +111,13 @@ describe('cloning', () =>  {
         expect(gameboard.board[2][4]).toBeUndefined();
     });
 });
+
+describe('place ship vertically', () =>  {
+    test('place ship in valid coordinates', () => {
+        expect(gameboard.placeShip(2, 2, 3, false)).toEqual([[2, 2], [2, 3], [2, 4]]);
+    });
+    
+    test('place ship in invalid coordinates', () => {
+        expect(gameboard.placeShip(7, 8, 3, false)).toEqual([]);
+    });
+});

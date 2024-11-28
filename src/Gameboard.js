@@ -23,20 +23,36 @@ class Gameboard {
         return this.#areAllShipsSunk;
     }
     
-    placeShip(x, y, shipLength) {
+    placeShip(x, y, shipLength, isHorizontal = true) {
         let coords = [];
-        if (x + shipLength <= 10) {
-            const clone = this.clone();
-            const ship = new Ship(shipLength);
-            for (let i = 0; i < shipLength; i++) {
-                if (typeof clone.board[x+i][y] === 'object') return [];
-                clone.board[x+i][y] = ship;
-                coords.push([x + i, y]);
+        if (isHorizontal) {
+            if (x + shipLength <= 10) {
+                const clone = this.clone();
+                const ship = new Ship(shipLength);
+                for (let i = 0; i < shipLength; i++) {
+                    if (typeof clone.board[x+i][y] === 'object') return [];
+                    clone.board[x+i][y] = ship;
+                    coords.push([x + i, y]);
+                }
+                for (let i = 0; i < shipLength; i++) {
+                    this.#board[x+i][y] = ship;
+                }
+                this.#ships.push(ship);
             }
-            for (let i = 0; i < shipLength; i++) {
-                this.#board[x+i][y] = ship;
+        } else {
+            if (y + shipLength <= 10) {
+                const clone = this.clone();
+                const ship = new Ship(shipLength);
+                for (let i = 0; i < shipLength; i++) {
+                    if (typeof clone.board[x][y+i] === 'object') return [];
+                    clone.board[x][y+i] = ship;
+                    coords.push([x, y+i]);
+                }
+                for (let i = 0; i < shipLength; i++) {
+                    this.#board[x][y+i] = ship;
+                }
+                this.#ships.push(ship);
             }
-            this.#ships.push(ship);
         }
         return coords;
     }
