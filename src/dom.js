@@ -41,6 +41,7 @@ function initGameboards() {
     }
     
     const computerGameboardDiv = document.getElementById('computer-gameboard');
+    computerGameboardDiv.classList.remove('game-over');
     computerGameboardDiv.textContent = '';
     for (let i = 0; i < 10; i++) {
         for (let j = 0; j < 10; j++) {

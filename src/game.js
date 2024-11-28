@@ -48,6 +48,8 @@ function computerTurn() {
 function gameOver(winner) {
     console.log(`${winner.name} wins`);
     isPlayerTurn = false;
+    const computerGameboardDiv = document.getElementById('computer-gameboard');
+    computerGameboardDiv.classList.add('game-over');
     const replayBtn = document.getElementById('replay-btn');
     showElements(replayBtn);
 }

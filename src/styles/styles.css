@@ -35,6 +35,10 @@
     background-color: black;
 } */
 
+#computer-gameboard.game-over > .ship {
+    background-color: black;
+}
+
 #computer-gameboard > .ship.hit {
     background-color: red;
 }
