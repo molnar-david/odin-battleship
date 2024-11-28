@@ -9,11 +9,40 @@ let isPlayerTurn = false;
 let mouseoverSquareDivs = [];
 let isHorizontal = true;
 
+let computerPredictionCoords = [];
+
 function computerTurn() {
-    const randomValidGameboardSquare = validGameboardSquares.splice(Math.floor(Math.random() * validGameboardSquares.length), 1)
-    const x = Math.floor(randomValidGameboardSquare / 10);
-    const y = randomValidGameboardSquare % 10;
-    player.gameboard.receiveAttack(x, y);
+    let x;
+    let y;
+    const attackOffsets = [
+        [1, 0],
+        [-1, 0],
+        [0, 1],
+        [0, -1]
+    ];
+    const playerGameboardDiv = document.getElementById('player-gameboard');
+    const playerGameboardSquareDivs = Array.from(playerGameboardDiv.getElementsByClassName('gameboard-square'));
+    if (computerPredictionCoords.length) {
+        [x, y] = [...computerPredictionCoords.shift()];
+        validGameboardSquares.splice(validGameboardSquares.indexOf(x + y*10), 1);
+    } else {
+        const randomValidGameboardSquare = validGameboardSquares.splice(Math.floor(Math.random() * validGameboardSquares.length), 1);
+        x = randomValidGameboardSquare % 10;
+        y = Math.floor(randomValidGameboardSquare / 10);
+        console.log('');
+    }
+    if (player.gameboard.receiveAttack(x, y)) {
+        attackOffsets.forEach((attackOffset) => {
+            const nextX = x + attackOffset[0];
+            const nextY = y + attackOffset[1];
+            const isOutOfBounds = (nextX < 0 || nextX >= 10 || nextY < 0 || nextY >= 10);
+            const isQueued = JSON.stringify(computerPredictionCoords).includes(JSON.stringify([nextX, nextY]));
+            if (!isOutOfBounds && !isQueued) {
+                const isAlreadyHit = playerGameboardSquareDivs[nextX+nextY*10].classList.contains('hit');
+                if (!isAlreadyHit) computerPredictionCoords.push([nextX, nextY]);
+            }
+        });
+    }
     return [x, y];
 }
 
@@ -180,6 +209,7 @@ function initGame(replay = false) {
     clone = null;
     computer = new Player();
     validGameboardSquares = [...Array(100).keys()];
+    computerPredictionCoords = [];
     initGameboards();
     renderGameboards(player, computer);
     if (!replay) initBtns();
