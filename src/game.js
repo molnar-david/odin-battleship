@@ -75,6 +75,16 @@ function getNextShipLength(player) {
     }
 }
 
+function clearSquareValidity() {
+    if (mouseoverSquareDivs.length) {
+        mouseoverSquareDivs.forEach((div) => {
+            div.classList.remove('valid');
+            div.classList.remove('invalid');
+        });
+        mouseoverSquareDivs = [];
+    }
+}
+
 function initPlayerSquares() {
     const playerGameboardDiv = document.getElementById('player-gameboard');
     const playerGameboardSquareDivs = Array.from(playerGameboardDiv.getElementsByClassName('gameboard-square'));
@@ -89,13 +99,7 @@ function initPlayerSquares() {
             });
 
             playerGameboardSquareDiv.addEventListener('mouseover', (event) => {
-                if (mouseoverSquareDivs.length) {
-                    mouseoverSquareDivs.forEach((div) => {
-                        div.classList.remove('valid');
-                        div.classList.remove('invalid');
-                    });
-                    mouseoverSquareDivs = [];
-                }
+                clearSquareValidity();
                 if (!clone) clone = player.clone();
                 let temp = clone.clone();
                 let shipLength = getNextShipLength(temp);
@@ -160,11 +164,13 @@ function placeShipRandomly(player, shipLength) {
 function initBtns() {
     const rotateBtn = document.getElementById('rotate-btn');
     rotateBtn.addEventListener('click', () => {
+        clearSquareValidity();
         isHorizontal = !isHorizontal;
     });
 
     const autoPlaceBtn = document.getElementById('auto-place-btn');
     autoPlaceBtn.addEventListener('click', () => {
+        clearSquareValidity();
         clone = player.clone();
         placeShipRandomly(clone, 5);
         placeShipRandomly(clone, 4);
