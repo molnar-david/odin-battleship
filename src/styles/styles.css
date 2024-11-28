@@ -31,9 +31,9 @@
     background-color: red;
 }
 
-#computer-gameboard > .ship {
+/* #computer-gameboard > .ship {
     background-color: black;
-}
+} */
 
 #computer-gameboard > .ship.hit {
     background-color: red;

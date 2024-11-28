@@ -29,7 +29,6 @@ function computerTurn() {
         const randomValidGameboardSquare = validGameboardSquares.splice(Math.floor(Math.random() * validGameboardSquares.length), 1);
         x = randomValidGameboardSquare % 10;
         y = Math.floor(randomValidGameboardSquare / 10);
-        console.log('');
     }
     if (player.gameboard.receiveAttack(x, y)) {
         attackOffsets.forEach((attackOffset) => {
