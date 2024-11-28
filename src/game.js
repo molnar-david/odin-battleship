@@ -7,6 +7,7 @@ let computer;
 let validGameboardSquares;
 let isPlayerTurn = false;
 let mouseoverSquareDivs = [];
+let isHorizontal = true;
 
 function computerTurn() {
     const randomValidGameboardSquare = validGameboardSquares.splice(Math.floor(Math.random() * validGameboardSquares.length), 1)
@@ -24,7 +25,7 @@ function gameOver(winner) {
 }
 
 function placeShipOnClick(player, x, y, shipLength) {
-    const coords = player.gameboard.placeShip(x, y, shipLength);
+    const coords = player.gameboard.placeShip(x, y, shipLength, isHorizontal);
     return coords;
 }
 
@@ -70,10 +71,18 @@ function initPlayerSquares() {
                 let temp = clone.clone();
                 let shipLength = getNextShipLength(temp);
                 let validityClass = placeShipOnClick(temp, i, j, shipLength).length ? 'valid' : 'invalid';
-                for (let k = i; k < Math.min(i + shipLength, 10); k++) {
-                    const mouseoverSquareDiv = playerGameboardSquareDivs[k*10+j];
-                    mouseoverSquareDiv.classList.add(validityClass);
-                    mouseoverSquareDivs.push(mouseoverSquareDiv);
+                if (isHorizontal) {
+                    for (let k = i; k < Math.min(i + shipLength, 10); k++) {
+                        const mouseoverSquareDiv = playerGameboardSquareDivs[k*10+j];
+                        mouseoverSquareDiv.classList.add(validityClass);
+                        mouseoverSquareDivs.push(mouseoverSquareDiv);
+                    }
+                } else {
+                    for (let l = j; l < Math.min(j + shipLength, 10); l++) {
+                        const mouseoverSquareDiv = playerGameboardSquareDivs[i*10+l];
+                        mouseoverSquareDiv.classList.add(validityClass);
+                        mouseoverSquareDivs.push(mouseoverSquareDiv);
+                    }
                 }
                 renderGameboards(clone, computer);
             });
@@ -114,11 +123,17 @@ function placeShipRandomly(player, shipLength) {
     while (true) {
         const x = Math.floor(Math.random() * (10 - shipLength + 1));
         const y = Math.floor(Math.random() * 10);
-        if (player.gameboard.placeShip(x, y, shipLength).length) break;
+        const randomIsHorizontal = Math.floor(Math.random() * 2);
+        if (player.gameboard.placeShip(x, y, shipLength, randomIsHorizontal).length) break;
     }
 }
 
 function initBtns() {
+    const rotateBtn = document.getElementById('rotate-btn');
+    rotateBtn.addEventListener('click', () => {
+        isHorizontal = !isHorizontal;
+    });
+
     const autoPlaceBtn = document.getElementById('auto-place-btn');
     autoPlaceBtn.addEventListener('click', () => {
         clone = player.clone();
@@ -147,7 +162,7 @@ function initBtns() {
             placeShipRandomly(computer, 2);
             renderGameboards(player, computer);
             initComputerSquares();
-            hideElements(autoPlaceBtn, resetBtn, startBtn);
+            hideElements(rotateBtn, autoPlaceBtn, resetBtn, startBtn);
             isPlayerTurn = true;
         }
     });
@@ -156,7 +171,7 @@ function initBtns() {
     replayBtn.addEventListener('click', () => {
         initGame(true);
         hideElements(replayBtn);
-        showElements(autoPlaceBtn, resetBtn, startBtn);
+        showElements(rotateBtn, autoPlaceBtn, resetBtn, startBtn);
     });
 }
 
