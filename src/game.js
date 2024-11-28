@@ -51,7 +51,7 @@ function initPlayerSquares() {
     const playerGameboardSquareDivs = Array.from(playerGameboardDiv.getElementsByClassName('gameboard-square'));
     for (let i = 0; i < 10; i++) {
         for (let j = 0; j < 10; j++) {
-            const playerGameboardSquareDiv = playerGameboardSquareDivs[i*10+j];
+            const playerGameboardSquareDiv = playerGameboardSquareDivs[i+j*10];
             playerGameboardSquareDiv.addEventListener('click', (event) => {
                 if (!clone) clone = player.clone();
                 let shipLength = getNextShipLength(clone);
@@ -73,13 +73,13 @@ function initPlayerSquares() {
                 let validityClass = placeShipOnClick(temp, i, j, shipLength).length ? 'valid' : 'invalid';
                 if (isHorizontal) {
                     for (let k = i; k < Math.min(i + shipLength, 10); k++) {
-                        const mouseoverSquareDiv = playerGameboardSquareDivs[k*10+j];
+                        const mouseoverSquareDiv = playerGameboardSquareDivs[k+j*10];
                         mouseoverSquareDiv.classList.add(validityClass);
                         mouseoverSquareDivs.push(mouseoverSquareDiv);
                     }
                 } else {
                     for (let l = j; l < Math.min(j + shipLength, 10); l++) {
-                        const mouseoverSquareDiv = playerGameboardSquareDivs[i*10+l];
+                        const mouseoverSquareDiv = playerGameboardSquareDivs[i+l*10];
                         mouseoverSquareDiv.classList.add(validityClass);
                         mouseoverSquareDivs.push(mouseoverSquareDiv);
                     }
@@ -96,7 +96,7 @@ function initComputerSquares() {
     const computerGameboardSquareDivs = Array.from(computerGameboardDiv.getElementsByClassName('gameboard-square'));
     for (let i = 0; i < 10; i++) {
         for (let j = 0; j < 10; j++) {
-            const computerGameboardSquareDiv = computerGameboardSquareDivs[i*10+j];
+            const computerGameboardSquareDiv = computerGameboardSquareDivs[i+j*10];
             computerGameboardSquareDiv.addEventListener('click', (event) => {
                 if (isPlayerTurn) {
                     computer.gameboard.receiveAttack(i, j);

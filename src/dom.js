@@ -1,6 +1,6 @@
 function renderAttack(gameboardDiv, x, y) {
     const gameboardSquareDivs = Array.from(gameboardDiv.getElementsByClassName('gameboard-square'));
-    gameboardSquareDivs[x*10+y].classList.add('hit');
+    gameboardSquareDivs[x+y*10].classList.add('hit');
 }
 
 function renderGameboards(player, computer) {
@@ -9,9 +9,9 @@ function renderGameboards(player, computer) {
     for (let i = 0; i < 10; i++) {
         for (let j = 0; j < 10; j++) {
             if (typeof player.gameboard.board[i][j] === 'object') {
-                playerGameboardSquareDivs[i*10+j].classList.add('ship');
+                playerGameboardSquareDivs[i+j*10].classList.add('ship');
             } else {
-                playerGameboardSquareDivs[i*10+j].classList.remove('ship');
+                playerGameboardSquareDivs[i+j*10].classList.remove('ship');
             }
         }
     }
@@ -21,9 +21,9 @@ function renderGameboards(player, computer) {
     for (let i = 0; i < 10; i++) {
         for (let j = 0; j < 10; j++) {
             if (typeof computer.gameboard.board[i][j] === 'object') {
-                computerGameboardSquareDivs[i*10+j].classList.add('ship');
+                computerGameboardSquareDivs[i+j*10].classList.add('ship');
             } else {
-                computerGameboardSquareDivs[i*10+j].classList.remove('ship');
+                computerGameboardSquareDivs[i+j*10].classList.remove('ship');
             }
         }
     }
