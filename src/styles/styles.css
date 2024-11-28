@@ -47,3 +47,15 @@
 .hidden {
     display: none;
 }
+
+.valid {
+    background-color: yellowgreen;
+}
+
+.invalid {
+    background-color: lightcoral;
+}
+
+#player-gameboard > .ship.invalid {
+    background-color: red;
+}

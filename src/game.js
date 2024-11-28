@@ -6,6 +6,7 @@ let clone;
 let computer;
 let validGameboardSquares;
 let isPlayerTurn = false;
+let mouseoverSquareDivs = [];
 
 function computerTurn() {
     const randomValidGameboardSquare = validGameboardSquares.splice(Math.floor(Math.random() * validGameboardSquares.length), 1)
@@ -22,8 +23,26 @@ function gameOver(winner) {
     showElements(replayBtn);
 }
 
-function placeShipOnClick(x, y, shipLength) {
-    const coords = clone.gameboard.placeShip(x, y, shipLength);
+function placeShipOnClick(player, x, y, shipLength) {
+    const coords = player.gameboard.placeShip(x, y, shipLength);
+    return coords;
+}
+
+function getNextShipLength(player) {
+    switch (player.gameboard.ships.length) {
+        case 0:
+            return 5;
+        case 1:
+            return 4;
+        case 2:
+            return 3;
+        case 3:
+            return 3;
+        case 4:
+            return 2;
+        default:
+            return 0;
+    }
 }
 
 function initPlayerSquares() {
@@ -34,27 +53,28 @@ function initPlayerSquares() {
             const playerGameboardSquareDiv = playerGameboardSquareDivs[i*10+j];
             playerGameboardSquareDiv.addEventListener('click', (event) => {
                 if (!clone) clone = player.clone();
-                let shipLength;
-                switch (clone.gameboard.ships.length) {
-                    case 0:
-                        shipLength = 5;
-                        break;
-                    case 1:
-                        shipLength = 4;
-                        break;
-                    case 2:
-                        shipLength = 3;
-                        break;
-                    case 3:
-                        shipLength = 3;
-                        break;
-                    case 4:
-                        shipLength = 2;
-                        break;
-                    default:
-                        return;
+                let shipLength = getNextShipLength(clone);
+                placeShipOnClick(clone, i, j, shipLength);
+                renderGameboards(clone, computer);
+            });
+
+            playerGameboardSquareDiv.addEventListener('mouseover', (event) => {
+                if (mouseoverSquareDivs.length) {
+                    mouseoverSquareDivs.forEach((div) => {
+                        div.classList.remove('valid');
+                        div.classList.remove('invalid');
+                    });
+                    mouseoverSquareDivs = [];
                 }
-                placeShipOnClick(i, j, shipLength);
+                if (!clone) clone = player.clone();
+                let temp = clone.clone();
+                let shipLength = getNextShipLength(temp);
+                let validityClass = placeShipOnClick(temp, i, j, shipLength).length ? 'valid' : 'invalid';
+                for (let k = i; k < Math.min(i + shipLength, 10); k++) {
+                    const mouseoverSquareDiv = playerGameboardSquareDivs[k*10+j];
+                    mouseoverSquareDiv.classList.add(validityClass);
+                    mouseoverSquareDivs.push(mouseoverSquareDiv);
+                }
                 renderGameboards(clone, computer);
             });
         }
