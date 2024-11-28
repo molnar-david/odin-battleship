@@ -29,6 +29,7 @@ function initSquares() {
     for (let i = 0; i < 10; i++) {
         for (let j = 0; j < 10; j++) {
             const computerGameboardSquareDiv = computerGameboardSquareDivs[i*10+j];
+            computerGameboardSquareDiv.classList.remove('inactive');
             computerGameboardSquareDiv.addEventListener('click', (event) => {
                 if (isPlayerTurn) {
                     computer.gameboard.receiveAttack(i, j);

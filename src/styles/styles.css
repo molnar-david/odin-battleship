@@ -40,7 +40,7 @@
     background-color: red;
 }
 
-#computer-gameboard > .gameboard-square:hover:not(.hit) {
+#computer-gameboard > .gameboard-square:hover:not(.hit, .inactive) {
     background-color: lightcoral;
 }
 

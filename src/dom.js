@@ -46,6 +46,7 @@ function initGameboards() {
         for (let j = 0; j < 10; j++) {
             const gameboardSquareDiv = document.createElement('div');
             gameboardSquareDiv.classList.add('gameboard-square');
+            gameboardSquareDiv.classList.add('inactive');
             computerGameboardDiv.appendChild(gameboardSquareDiv);
         }
     }
