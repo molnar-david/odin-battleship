@@ -24,6 +24,7 @@ class Gameboard {
     }
     
     placeShip(x, y, shipLength, isHorizontal = true) {
+        if (!shipLength) return [];
         let coords = [];
         if (isHorizontal) {
             if (x + shipLength <= 10) {

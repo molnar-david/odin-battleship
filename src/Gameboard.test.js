@@ -19,6 +19,11 @@ test('place multiple ships on top of each other', () => {
     expect(gameboard.placeShip(4, 2, 3)).toEqual([]);
 });
 
+test('place ship with length 0', () => {
+    gameboard.placeShip(2, 2, 0)
+    expect(gameboard.ships.length).toEqual(0);
+});
+
 describe('receive attack - single ship', () => {
     beforeEach(() => {
         gameboard.placeShip(2, 2, 3);
