@@ -1,10 +1,97 @@
+@font-face {
+    font-family: MarineCorps;
+    src: url("../fonts/MarineCorpsPersonalUsed-ax9Mo.otf") format("opentype");
+}
+
+@font-face {
+    font-family: Roboto;
+    font-weight: normal;
+    src: url("../fonts/Roboto-Regular.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: Roboto;
+    font-weight: bold;
+    src: url("../fonts/Roboto-Bold.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: Roboto;
+    font-weight: 900;
+    src: url("../fonts/Roboto-Black.ttf") format("truetype");
+}
+
 * {
     box-sizing: border-box;
 }
 
+body {
+    margin: 0;
+    background-color: lightgrey;
+    height: 100vh;
+}
+
+h1 {
+    font-family: MarineCorps, Roboto, sans-serif;
+    font-weight: 900;
+    font-size: 4rem;
+    margin: 0;
+    padding: 16px 0;
+    width: 100%;
+    text-align: center;
+    background-color: lightslategrey;
+    border-bottom: 4px solid black;
+}
+
+h2 {
+    font-family: Roboto, sans-serif;
+    font-size: 2rem;
+    margin: 16px 0 24px;
+}
+
 .flex {
     display: flex;
-    gap: 80px;
+}
+
+.vertical {
+    flex-direction: column;
+}
+
+.center.vertical {
+    align-items: center;
+}
+
+.center:not(.vertical) {
+    justify-content: center;
+}
+
+.wrap {
+    flex-wrap: wrap;
+}
+
+#btn-container {
+    margin-bottom: 12px;
+    width: 400px;
+    gap: 8px;
+}
+
+#btn-container > * {
+    flex: 1 1 0;
+}
+
+button {
+    background-color: lightslategrey;
+    border: 2px solid black;
+    border-radius: 8px;
+    font-family: Roboto, sans-serif;
+    font-weight: bold;
+    font-size: 1rem;
+    color: white;
+}
+
+#gameboard-container {
+    gap: 64px;
+    justify-content: center;
 }
 
 .gameboard {
