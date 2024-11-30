@@ -140,29 +140,26 @@ function initComputerSquares() {
             computerGameboardSquareDiv.addEventListener('click', (event) => {
                 if (isPlayerTurn) {
                     computer.gameboard.receiveAttack(i, j);
-                    if (renderAttack(computerGameboardDiv, i, j)) {
-                        modifySubheader('You hit');
-                    } else {
-                        modifySubheader('You missed');
-                    }
+                    let isHit = renderAttack(computerGameboardDiv, i, j);
+                    isHit ? modifySubheader('You hit') : modifySubheader('You missed');
                     if (computer.gameboard.areAllShipsSunk) {
                         gameOver(player);
                         return;
                     }
+                    isPlayerTurn = false;
                     modifyHeader("Computer's turn");
-                    if (renderAttack(playerGameboardDiv, ...computerTurn(player))) {
-                        modifySubheader('Computer hit');
-                    } else {
-                        modifySubheader('Computer missed');
-                    };
-                    if (player.gameboard.areAllShipsSunk) {
-                        gameOver(computer);
-                        return;
-                    }
-                    isPlayerTurn = true;
-                    modifyHeader('Your turn');
+                    setTimeout(() => {
+                        isHit = renderAttack(playerGameboardDiv, ...computerTurn(player));
+                        isHit ? modifySubheader('Computer hit') : modifySubheader('Computer missed');
+                        if (player.gameboard.areAllShipsSunk) {
+                            gameOver(computer);
+                            return;
+                        }
+                        isPlayerTurn = true;
+                        modifyHeader('Your turn');
+                    }, 500)
                 }
-            }, { once: true });
+            });
         }
     }
     computerGameboardDiv.classList.remove('inactive');
