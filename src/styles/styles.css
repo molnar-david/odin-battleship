@@ -46,7 +46,13 @@ h1 {
 h2 {
     font-family: Roboto, sans-serif;
     font-size: 2rem;
-    margin: 16px 0 24px;
+    margin: 24px 0 12px;
+}
+
+h3 {
+    font-family: Roboto, sans-serif;
+    font-size: 1.2rem;
+    margin: 12px 0;
 }
 
 .flex {
@@ -70,7 +76,7 @@ h2 {
 }
 
 #btn-container {
-    margin-bottom: 12px;
+    margin: 12px 0;
     width: 400px;
     gap: 8px;
 }

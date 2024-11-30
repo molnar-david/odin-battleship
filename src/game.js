@@ -1,5 +1,8 @@
 const Player = require('./Player');
-const { initGameboards, renderGameboards, renderAttack, hideElements, showElements } = require('./dom.js');
+const {
+    initGameboards, renderGameboards, renderAttack, hideElements, showElements,
+    modifyHeader, modifySubheader
+ } = require('./dom.js');
 
 let player;
 let clone;
@@ -50,7 +53,8 @@ function gameOver(winner) {
     const computerGameboardDiv = document.getElementById('computer-gameboard');
     computerGameboardDiv.classList.add('inactive');
     computerGameboardDiv.classList.add('game-over');
-    console.log(`${winner.name} wins`);
+    modifyHeader(`${winner} wins!`);
+    modifySubheader('Play again?');
     const replayBtn = document.getElementById('replay-btn');
     showElements(replayBtn);
 }
@@ -97,6 +101,7 @@ function initPlayerSquares() {
                 if (!clone) clone = player.clone();
                 let shipLength = getNextShipLength(clone);
                 placeShipOnClick(clone, i, j, shipLength);
+                modifySubheader(`${5 - clone.gameboard.ships.length} left`);
                 renderGameboards(clone, computer);
             });
 
@@ -135,17 +140,27 @@ function initComputerSquares() {
             computerGameboardSquareDiv.addEventListener('click', (event) => {
                 if (isPlayerTurn) {
                     computer.gameboard.receiveAttack(i, j);
-                    renderAttack(computerGameboardDiv, i, j);
+                    if (renderAttack(computerGameboardDiv, i, j)) {
+                        modifySubheader('You hit');
+                    } else {
+                        modifySubheader('You missed');
+                    }
                     if (computer.gameboard.areAllShipsSunk) {
                         gameOver(player);
                         return;
                     }
-                    renderAttack(playerGameboardDiv, ...computerTurn(player));
+                    modifyHeader("Computer's turn");
+                    if (renderAttack(playerGameboardDiv, ...computerTurn(player))) {
+                        modifySubheader('Computer hit');
+                    } else {
+                        modifySubheader('Computer missed');
+                    };
                     if (player.gameboard.areAllShipsSunk) {
                         gameOver(computer);
                         return;
                     }
                     isPlayerTurn = true;
+                    modifyHeader('Your turn');
                 }
             }, { once: true });
         }
@@ -179,12 +194,14 @@ function initBtns() {
         placeShipRandomly(clone, 3);
         placeShipRandomly(clone, 3);
         placeShipRandomly(clone, 2);
+        modifySubheader('0 left');
         renderGameboards(clone, computer);
     });
 
     const resetBtn = document.getElementById('reset-btn');
     resetBtn.addEventListener('click', () => {
         clone = null;
+        modifySubheader('5 left');
         renderGameboards(player, computer);
     });
 
@@ -202,6 +219,8 @@ function initBtns() {
             hideElements(rotateBtn, autoPlaceBtn, resetBtn, startBtn);
             showElements(document.getElementById('computer-gameboard'));
             isPlayerTurn = true;
+            modifyHeader('Your turn');
+            modifySubheader('Choose your target');
         }
     });
 
@@ -211,6 +230,11 @@ function initBtns() {
         hideElements(replayBtn);
         showElements(rotateBtn, autoPlaceBtn, resetBtn, startBtn);
     });
+}
+
+function initHeaders() {
+    modifyHeader('Place your ships');
+    modifySubheader('5 left');
 }
 
 function initGame(replay = false) {
@@ -223,6 +247,7 @@ function initGame(replay = false) {
     renderGameboards(player, computer);
     if (!replay) initBtns();
     initPlayerSquares();
+    initHeaders();
 }
 
 module.exports = initGame;

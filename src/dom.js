@@ -1,6 +1,7 @@
 function renderAttack(gameboardDiv, x, y) {
     const gameboardSquareDivs = Array.from(gameboardDiv.getElementsByClassName('gameboard-square'));
     gameboardSquareDivs[x+y*10].classList.add('hit');
+    return gameboardSquareDivs[x+y*10].classList.contains('ship');
 }
 
 function renderGameboards(player, computer) {
@@ -61,4 +62,12 @@ function showElements(...elements) {
     elements.forEach((element) => element.classList.remove('hidden'));
 }
 
-module.exports = { initGameboards, renderGameboards, renderAttack, hideElements, showElements };
+function modifyHeader(str) {
+    document.querySelector('h2').textContent = str;
+}
+
+function modifySubheader(str) {
+    document.querySelector('h3').textContent = str;
+}
+
+module.exports = { initGameboards, renderGameboards, renderAttack, hideElements, showElements, modifyHeader, modifySubheader };
