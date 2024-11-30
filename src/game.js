@@ -200,6 +200,7 @@ function initBtns() {
             renderGameboards(player, computer);
             initComputerSquares();
             hideElements(rotateBtn, autoPlaceBtn, resetBtn, startBtn);
+            showElements(document.getElementById('computer-gameboard'));
             isPlayerTurn = true;
         }
     });
