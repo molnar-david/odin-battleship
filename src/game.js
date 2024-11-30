@@ -53,7 +53,7 @@ function gameOver(winner) {
     const computerGameboardDiv = document.getElementById('computer-gameboard');
     computerGameboardDiv.classList.add('inactive');
     computerGameboardDiv.classList.add('game-over');
-    modifyHeader(`${winner} wins!`);
+    modifyHeader(`${winner.name} wins!`);
     modifySubheader('Play again?');
     const replayBtn = document.getElementById('replay-btn');
     showElements(replayBtn);
